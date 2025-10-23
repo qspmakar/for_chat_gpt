@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Моя Презентация</title>
+  
+  <!-- Reveal.js стили -->
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/black.css">
+  
+  <!-- Ваши стили -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      
+      <!-- Единственный слайд -->
+      <section>
+        <h1>Мой заголовок</h1>
+        <video id="mainVideo" width="800" muted>
+          <source src="videos/Ready.mp4" type="video/mp4">
+          Ваш браузер не поддерживает видео
+        </video>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js скрипт -->
+  <script src="dist/reveal.js"></script>
+  
+  <!-- Ваш скрипт -->
+  <script src="script.js"></script>
+  
+  <!-- Инициализация Reveal.js -->
+  <script>
+    Reveal.initialize({
+      hash: true,
+      embedded: true,
+      controls: true,
+      progress: false,
+      center: true,
+      transition: 'none'
+    });
+  </script>
+</body>
+</html>
