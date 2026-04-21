@@ -1,0 +1,11 @@
+{
+  "bridge_folder": "//server/projects/bridge_exchange",
+  "scene_code": "ep010_sh030",
+  "maya": {
+    "attr_whitelist": ["id", "shop_materialpath", "name", "path", "uvSet"]
+  },
+  "houdini": {
+    "abc_frame_range": [1, 1],
+    "force_path_attr": true
+  }
+}
