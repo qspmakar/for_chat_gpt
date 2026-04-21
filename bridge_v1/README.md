@@ -77,9 +77,80 @@
    - `export_selected_to_houdini()`
    - `import_latest_from_houdini()`
 
+## Куда именно класть файлы (практически)
+
+Ниже — рабочий вариант для v1 без сложного деплоя.
+
+### 1) Общая сетевая папка (для `.abc` + `.json`)
+
+- Создай папку, доступную и Houdini, и Maya:
+  - Windows пример: `\\\\server\\projects\\bridge_exchange`
+  - Linux пример: `/mnt/projects/bridge_exchange`
+- Эту папку укажи в `bridge_config.json` как `bridge_folder`.
+
+### 2) Куда класть Python-скрипты
+
+Рекомендуемый вариант для v1 — отдельная папка tools в пайплайне, например:
+
+- `//server/pipeline/tools/bridge_v1/houdini_bridge.py`
+- `//server/pipeline/tools/bridge_v1/maya_bridge.py`
+- `//server/pipeline/tools/bridge_v1/bridge_config.json`
+
+Важно: обе DCC должны видеть один и тот же путь к `bridge_config.json`.
+
+### 3) Houdini: куда подключать
+
+Локально у художника:
+
+- `~/houdini20.5/scripts/python/` (или версия Houdini, которую используешь)
+- либо просто добавить путь `//server/pipeline/tools/bridge_v1` в `HOUDINI_PATH`/`PYTHONPATH`.
+
+Shelf Tool (Python) для экспорта в Maya:
+
+```python
+import sys
+sys.path.append(r"//server/pipeline/tools/bridge_v1")
+import houdini_bridge as hb
+hb.export_selected_to_maya(r"//server/pipeline/tools/bridge_v1/bridge_config.json")
+```
+
+Shelf Tool (Python) для импорта из Maya:
+
+```python
+import sys
+sys.path.append(r"//server/pipeline/tools/bridge_v1")
+import houdini_bridge as hb
+hb.import_latest_from_maya(r"//server/pipeline/tools/bridge_v1/bridge_config.json")
+```
+
+### 4) Maya: куда подключать
+
+Локально у художника:
+
+- `~/Documents/maya/scripts/` (Windows)
+- `~/maya/scripts/` (Linux)
+- либо добавить `//server/pipeline/tools/bridge_v1` в `PYTHONPATH`.
+
+Shelf Button (Python) экспорт в Houdini:
+
+```python
+import sys
+sys.path.append(r"//server/pipeline/tools/bridge_v1")
+import maya_bridge as mb
+mb.export_selected_to_houdini(r"//server/pipeline/tools/bridge_v1/bridge_config.json")
+```
+
+Shelf Button (Python) импорт из Houdini:
+
+```python
+import sys
+sys.path.append(r"//server/pipeline/tools/bridge_v1")
+import maya_bridge as mb
+mb.import_latest_from_houdini(r"//server/pipeline/tools/bridge_v1/bridge_config.json")
+```
+
 ## Ограничения v1
 
 - Нет live-сокетов: только file-based обмен.
 - Нет conflict resolution при параллельной работе нескольких артистов.
 - Нет UI кроме стандартных message boxes/log.
-
